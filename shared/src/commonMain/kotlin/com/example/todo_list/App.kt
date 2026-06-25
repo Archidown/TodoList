@@ -1,29 +1,65 @@
 package com.example.todo_list
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
-
 import todolist.shared.generated.resources.Res
-import todolist.shared.generated.resources.compose_multiplatform
+import todolist.shared.generated.resources.add_24px
 
 @Composable
 @Preview
 fun App() {
+    var tasks by remember { mutableStateOf(emptyList<Task>()) }
+    var showDialog by remember {mutableStateOf(false)}
+    Scaffold(
+        floatingActionButton = { ButtonAdd(onClick = {showDialog=true}) }
+    ) {
+        Text(
+            modifier = Modifier.padding(vertical = 75.dp, horizontal = 20.dp),
+            text = "My tasks",
+            fontSize = 36.sp,
+            fontWeight = FontWeight.Bold
+        )
+        LazyColumn {
+            items(items = tasks, key = { it.id }) { task ->
+                TaskItem()
+            }
+        }
+        if (showDialog){
+            ModalBottomSheetItem (onDismiss = {showDialog=false})
+        }
+    }
+}
+
+
+@Composable
+fun ButtonAdd(onClick: ()->Unit) {
+    FloatingActionButton(
+        onClick = onClick
+    ) {
+        Icon(
+            painterResource(Res.drawable.add_24px),
+            contentDescription = "floating button add"
+        )
+    }
+}
+
+fun addATask() {
 
 }
