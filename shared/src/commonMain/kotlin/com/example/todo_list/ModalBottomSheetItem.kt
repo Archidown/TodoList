@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalBottomSheetItem(onDismiss: () -> Unit) {
+fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String) -> Unit) {
     val sheetState = rememberModalBottomSheetState()
     val titleState = rememberTextFieldState()
     val descriptionState = rememberTextFieldState()
@@ -35,7 +35,7 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit) {
         modifier = Modifier.fillMaxSize(),
         dragHandle = null
 
-        ) {
+    ) {
         Column(
             modifier = Modifier
                 .padding(20.dp)
@@ -45,27 +45,29 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit) {
                 state = titleState,
                 modifier = Modifier
                     .fillMaxWidth(),
-                label = { Text("title") },
-                placeholder = { Text("Insert Title") },
-                textStyle = LocalTextStyle.current.copy(fontSize = 70.sp)
+                label = { Text("title", fontSize = 30.sp) },
+                placeholder = { Text(text = "Insert Title", fontSize = 30.sp) },
+                textStyle = LocalTextStyle.current.copy(fontSize = 30.sp)
             )
             OutlinedTextField(
                 state = descriptionState,
                 modifier = Modifier
                     .fillMaxWidth(),
-                label = { Text("title") },
+                label = { Text("description") },
             )
             Button(
-                onClick = {showSheet=true}
+                onClick = { showSheet = true }
             ) { Text("Date") }
-            if (showSheet){
-                LaunchedEffect(Unit){
+            Button(
+                onClick = {onAddTask(titleState.text.toString())}
+            ) { Text("Create") }
+            if (showSheet) {
+                LaunchedEffect(Unit) {
                     sheetState.hide()
                 }
-                ModalBottomSheetDatePicker(onDismiss = {showSheet=false})
-            }
-            else{
-                LaunchedEffect(Unit){
+                ModalBottomSheetDatePicker(onDismiss = { showSheet = false })
+            } else {
+                LaunchedEffect(Unit) {
                     sheetState.show()
                 }
             }
