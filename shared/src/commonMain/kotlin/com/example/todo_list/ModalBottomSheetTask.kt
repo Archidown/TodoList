@@ -21,13 +21,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import co.touchlab.kermit.Logger
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String,String) -> Unit) {
+fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String) -> Unit) {
     val sheetState = rememberModalBottomSheetState()
     val titleState = rememberTextFieldState()
     val descriptionState = rememberTextFieldState()
+    Logger.d { "$titleState, $descriptionState" }
     var showSheet by remember { mutableStateOf(false) }
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -59,7 +61,10 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String,String) -> Un
                 onClick = { showSheet = true }
             ) { Text("Date") }
             Button(
-                onClick = {onAddTask(titleState.text.toString(),descriptionState.text.toString())}
+                onClick = {
+                    if (!checkTask(titleState.text.toString()))
+                        onAddTask(titleState.text.toString(), descriptionState.text.toString())
+                }
             ) { Text("Create") }
             if (showSheet) {
                 LaunchedEffect(Unit) {
@@ -74,5 +79,9 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String,String) -> Un
         }
     }
 
+}
+
+fun checkTask(title: String): Boolean {
+    return title == ""
 }
 
