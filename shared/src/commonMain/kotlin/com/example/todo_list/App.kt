@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -30,7 +29,7 @@ fun App() {
     var tasks by remember { mutableStateOf(emptyList<Task>()) }
     var showDialog by remember { mutableStateOf(false) }
     Scaffold(
-        floatingActionButton = { ButtonAdd(onClick = { showDialog = true }) }
+        floatingActionButton = { ButtonAdd(onClick = { showDialog = true }) }//showDialog is read just a visual bug
     ) { innerPadding ->
         Column(
             modifier=Modifier.padding(innerPadding)
@@ -43,17 +42,19 @@ fun App() {
             )
             LazyColumn {
                 items(items = tasks, key = { it.id }) { task ->
-                    TaskItem()
+                    TaskItem(task.title,task.description)
                 }
             }
             if (showDialog) {
                 ModalBottomSheetItem(
                     onDismiss = { showDialog = false },
-                    onAddTask = { title ->
+                    onAddTask = { title,description ->
                         tasks = tasks + Task(
                             id = (tasks.maxOfOrNull { it.id } ?: 0) + 1,
-                            title = title
+                            title = title,
+                            description = description
                         )
+                        showDialog=false
                     }
                 )
             }

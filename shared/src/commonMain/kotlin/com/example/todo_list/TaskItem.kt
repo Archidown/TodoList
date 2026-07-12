@@ -1,8 +1,10 @@
 package com.example.todo_list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
@@ -13,25 +15,39 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-@Preview
-fun TaskItem() {
+fun TaskItem(title: String, description: String) {
     val checkedState = remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
             .background(Color.White)
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
             checkedState.value,
-            onCheckedChange = { checkedState.value = it }
+            onCheckedChange = { checkedState.value = true },
         )
-        OutlinedTextField(
-            state = rememberTextFieldState(),
-            label = { Text("Title") }
-        )
+        Column {
+            Text(
+                text = title,
+                fontSize = 20.sp,
+                modifier = Modifier.padding(bottom = 2.dp),
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = description,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text("Date")
+        }
+
     }
 }
