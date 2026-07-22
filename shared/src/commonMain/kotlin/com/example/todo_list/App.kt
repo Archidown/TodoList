@@ -28,11 +28,18 @@ import todolist.shared.generated.resources.add_24px
 fun App() {
     var tasks by remember { mutableStateOf(emptyList<Task>()) }
     var showDialog by remember { mutableStateOf(false) }
+    var showTaskEdit by remember { mutableStateOf(false) }
+    var taskTitle by remember { mutableStateOf("") }
+    var taskDescription by remember { mutableStateOf("") }
     Scaffold(
-        floatingActionButton = { ButtonAdd(onClick = { showDialog = true }) }//showDialog is read just a visual bug
+        floatingActionButton = {
+            ButtonAdd(onClick = {
+                showDialog = true
+            })
+        }//showDialog is read just a visual bug
     ) { innerPadding ->
         Column(
-            modifier=Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding)
         ) {
             Text(
                 modifier = Modifier.padding(vertical = 75.dp, horizontal = 20.dp),
@@ -42,21 +49,31 @@ fun App() {
             )
             LazyColumn {
                 items(items = tasks, key = { it.id }) { task ->
-                    TaskItem(task.title,task.description)
+                    TaskItem(task.title, task.description, onClick = {
+                        showTaskEdit = true
+                        taskTitle = task.title
+                        taskDescription = task.description
+                    })
                 }
             }
             if (showDialog) {
                 ModalBottomSheetItem(
                     onDismiss = { showDialog = false },
-                    onAddTask = { title,description ->
+                    onAddTask = { title, description ->
                         tasks = tasks + Task(
                             id = (tasks.maxOfOrNull { it.id } ?: 0) + 1,
                             title = title,
                             description = description
                         )
-                        showDialog=false
+                        showDialog = false
                     }
                 )
+            }
+            if (showTaskEdit) {
+                ModalBottomSheetTaskEdit(
+                    title = taskTitle,
+                    description = taskDescription,
+                    onDismissRequest = { showTaskEdit = false })
             }
         }
     }
