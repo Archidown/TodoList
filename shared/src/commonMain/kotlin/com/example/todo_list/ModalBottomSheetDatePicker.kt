@@ -6,11 +6,13 @@ import androidx.compose.runtime.Composable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalBottomSheetDatePicker(onDismiss:()->Unit){
+fun ModalBottomSheetDatePicker(onDismiss: () -> Unit, onDatePicked: (String) -> Unit) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         dragHandle = null
     ){
-        DatePickerItem()
+
+        DatePickerItem(onDatePicked)
     }
 }
+
