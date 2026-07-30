@@ -31,6 +31,7 @@ fun App() {
     var showTaskEdit by remember { mutableStateOf(false) }
     var taskTitle by remember { mutableStateOf("") }
     var taskDescription by remember { mutableStateOf("") }
+    var taskDate by remember { mutableStateOf("") }
     Scaffold(
         floatingActionButton = {
             ButtonAdd(onClick = {
@@ -49,20 +50,22 @@ fun App() {
             )
             LazyColumn {
                 items(items = tasks, key = { it.id }) { task ->
-                    TaskItem(task.title, task.description, onClick = {
+                    TaskItem(task.title, task.description, task.date, onClick = {
                         showTaskEdit = true
                         taskTitle = task.title
                         taskDescription = task.description
+                        taskDate = task.date
                     })
                 }
             }
             if (showDialog) {
                 ModalBottomSheetItem(
                     onDismiss = { showDialog = false },
-                    onAddTask = { title, description ->
+                    onAddTask = { title, description, date ->
                         tasks = tasks + Task(
                             id = (tasks.maxOfOrNull { it.id } ?: 0) + 1,
                             title = title,
+                            date = date,
                             description = description
                         )
                         showDialog = false
@@ -73,6 +76,7 @@ fun App() {
                 ModalBottomSheetTaskEdit(
                     title = taskTitle,
                     description = taskDescription,
+                    date = taskDate,
                     onDismissRequest = { showTaskEdit = false })
             }
         }

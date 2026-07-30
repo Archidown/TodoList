@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun TaskItem(title: String, description: String, onClick: () -> Unit) {
+fun TaskItem(title: String, description: String, date: String, onClick: () -> Unit) {
     val checkedState = remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
@@ -43,7 +43,7 @@ fun TaskItem(title: String, description: String, onClick: () -> Unit) {
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
-            Text("Date")
+            Text(date)
         }
 
     }

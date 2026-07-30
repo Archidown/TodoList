@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String) -> Unit) {
+fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, String) -> Unit) {
     val sheetState = rememberModalBottomSheetState()
     val titleState = rememberTextFieldState()
     val descriptionState = rememberTextFieldState()
@@ -61,8 +61,12 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String) -> U
             ) { Text(dateText) }
             Button(
                 onClick = {
-                    if (!checkTask(titleState.text.toString()))
-                        onAddTask(titleState.text.toString(), descriptionState.text.toString())
+                    if (checkTask(titleState.text.toString(), dateText))
+                        onAddTask(
+                            titleState.text.toString(),
+                            descriptionState.text.toString(),
+                            dateText
+                        )
                 }
             ) { Text("Create") }
             if (showSheet) {
@@ -84,7 +88,7 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String) -> U
 
 }
 
-fun checkTask(title: String): Boolean {
-    return title == ""
+fun checkTask(title: String, date: String): Boolean {
+    return !(title == "" || date == "Date")
 }
 

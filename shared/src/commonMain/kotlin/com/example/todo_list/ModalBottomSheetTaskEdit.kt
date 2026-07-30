@@ -15,7 +15,12 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalBottomSheetTaskEdit(title: String, description: String, onDismissRequest: () -> Unit) {
+fun ModalBottomSheetTaskEdit(
+    title: String,
+    description: String,
+    date: String,
+    onDismissRequest: () -> Unit
+) {
     ModalBottomSheet(
         onDismissRequest = { onDismissRequest },
         modifier = Modifier
@@ -30,7 +35,7 @@ fun ModalBottomSheetTaskEdit(title: String, description: String, onDismissReques
         ) {
             Text(title)
             Text(description)
-            Text("Date")
+            Text(date)
         }
     }
 }

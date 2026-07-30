@@ -12,7 +12,7 @@ fun ModalBottomSheetDatePicker(onDismiss: () -> Unit, onDatePicked: (String) -> 
         dragHandle = null
     ){
 
-        DatePickerItem(onDatePicked)
+        DatePickerItem(onDatePicked, onDismiss)
     }
 }
 

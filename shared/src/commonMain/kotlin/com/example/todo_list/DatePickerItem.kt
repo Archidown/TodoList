@@ -21,7 +21,7 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun DatePickerItem(onDatePicked: (String) -> Unit) {
+fun DatePickerItem(onDatePicked: (String) -> Unit, onDismiss: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.background(Color.White)
@@ -33,14 +33,16 @@ fun DatePickerItem(onDatePicked: (String) -> Unit) {
             colors = DatePickerDefaults.colors(Color.White)
         )
         val date = state.selectedDateMillis
-        if (date != null) {
-            val correctDate = Instant.fromEpochMilliseconds(date)
-                .toLocalDateTime(TimeZone.UTC)
-                .date
-            onDatePicked(correctDate.toString())
+        Button(onClick = {
+            if (date != null) {
+                val correctDate = Instant.fromEpochMilliseconds(date)
+                    .toLocalDateTime(TimeZone.UTC)
+                    .date
+                onDatePicked(correctDate.toString())
+                onDismiss()
 
-        }
-        Button(onClick = {}) {
+            }
+        }) {
             Text("Ok")
         }
     }
