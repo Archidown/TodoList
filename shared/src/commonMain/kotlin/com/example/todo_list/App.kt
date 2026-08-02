@@ -50,12 +50,18 @@ fun App() {
             )
             LazyColumn {
                 items(items = tasks, key = { it.id }) { task ->
-                    TaskItem(task.title, task.description, task.date, onClick = {
-                        showTaskEdit = true
-                        taskTitle = task.title
-                        taskDescription = task.description
-                        taskDate = task.date
-                    })
+                    TaskItem(
+                        task,
+                        onClick = {
+                            showTaskEdit = true
+                            taskTitle = task.title
+                            taskDescription = task.description
+                            taskDate = task.date
+                        },
+                        onFinished = {task->
+                            tasks=tasks.filter{it != task}
+                        }
+                        )
                 }
             }
             if (showDialog) {
@@ -77,7 +83,8 @@ fun App() {
                     title = taskTitle,
                     description = taskDescription,
                     date = taskDate,
-                    onDismissRequest = { showTaskEdit = false })
+                    onDismissRequest = { showTaskEdit = false },
+                    )
             }
         }
     }

@@ -11,16 +11,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-fun TaskItem(title: String, description: String, date: String, onClick: () -> Unit) {
+fun TaskItem(task: Task, onClick: () -> Unit,onFinished:(Task)->Unit) {
     val checkedState = remember { mutableStateOf(false) }
+    val scope= rememberCoroutineScope()
     Row(
         modifier = Modifier
             .background(Color.White)
@@ -29,21 +34,27 @@ fun TaskItem(title: String, description: String, date: String, onClick: () -> Un
     ) {
         Checkbox(
             checkedState.value,
-            onCheckedChange = { checkedState.value = true },
+            onCheckedChange = {
+                checkedState.value = true
+                scope.launch {
+                    delay(500.milliseconds)
+                    onFinished(task)
+                }
+                },
         )
         Column {
             Text(
-                text = title,
+                text = task.title,
                 fontSize = 20.sp,
                 modifier = Modifier.padding(bottom = 2.dp),
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = description,
+                text = task.description,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
-            Text(date)
+            Text(task.date)
         }
 
     }

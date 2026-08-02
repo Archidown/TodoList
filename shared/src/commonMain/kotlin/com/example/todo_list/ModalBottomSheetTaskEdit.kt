@@ -19,7 +19,7 @@ fun ModalBottomSheetTaskEdit(
     title: String,
     description: String,
     date: String,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     ModalBottomSheet(
         onDismissRequest = { onDismissRequest },
