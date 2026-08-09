@@ -1,4 +1,4 @@
-package com.example.todo_list
+package com.example.todo_list.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
