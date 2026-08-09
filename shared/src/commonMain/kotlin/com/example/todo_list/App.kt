@@ -63,6 +63,7 @@ fun App() {
                             taskDate = task.date
                         },
                         onFinished = { task ->
+                            taskViewModel.checkBoxRemoveTask(task)
                             taskViewModel.removeTask(task)
                         }
                     )
@@ -72,8 +73,10 @@ fun App() {
                 ModalBottomSheetItem(
                     onDismiss = { showDialog = false },
                     onAddTask = { title, description, date ->
-                        taskViewModel.addTask(title, description, date)
-                        showDialog = false
+                        if (taskViewModel.checkTask(title, date)) {
+                            taskViewModel.addTask(title, description, date)
+                            showDialog = false
+                        }
                     }
                 )
             }

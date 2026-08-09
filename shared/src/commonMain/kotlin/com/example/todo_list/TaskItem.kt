@@ -17,14 +17,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo_list.model.TaskModel
-import com.example.todo_list.viewModel.TaskViewModel
 
 @Composable
 fun TaskItem(task: TaskModel, onClick: () -> Unit, onFinished: (TaskModel) -> Unit) {
 
-    val taskViewModel = viewModel { TaskViewModel() }
     val checkedState = remember { mutableStateOf(false) }
 
     Row(
@@ -37,7 +34,7 @@ fun TaskItem(task: TaskModel, onClick: () -> Unit, onFinished: (TaskModel) -> Un
             checkedState.value,
             onCheckedChange = {
                 checkedState.value = true
-                taskViewModel.checkBoxRemoveTask(task)
+                onFinished(task)
             },
         )
         Column {
