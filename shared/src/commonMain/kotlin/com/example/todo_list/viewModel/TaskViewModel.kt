@@ -23,7 +23,7 @@ class TaskViewModel : ViewModel() {
     }
 
     fun removeTask(task: TaskModel) {
-        _taskList.value = _taskList.value.filter { it != task }
+        _taskList.value = _taskList.value.filter { it.id != task.id }
     }
 
     fun checkTask(title: String, date: String): Boolean {
@@ -32,7 +32,12 @@ class TaskViewModel : ViewModel() {
 
     fun checkBoxRemoveTask(task: TaskModel) {
         viewModelScope.launch {
-            task.isDone=true
+            _taskList.value=_taskList.value.map{
+                if (it.id==task.id)
+                    it.copy(isDone = true)
+                else
+                    it
+            }
             delay(500.milliseconds)
             removeTask(task)
         }

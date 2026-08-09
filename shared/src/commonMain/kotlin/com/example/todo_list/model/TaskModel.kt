@@ -5,5 +5,5 @@ data class TaskModel(
     val title: String,
     val description: String,
     val date: String,
-    var isDone: Boolean=false
+    val isDone: Boolean=false
 )
