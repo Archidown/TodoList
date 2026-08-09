@@ -22,7 +22,7 @@ fun ModalBottomSheetTaskEdit(
     onDismissRequest: () -> Unit,
 ) {
     ModalBottomSheet(
-        onDismissRequest = { onDismissRequest },
+        onDismissRequest = { onDismissRequest() },
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 15.dp)
