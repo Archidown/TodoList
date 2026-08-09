@@ -32,6 +32,7 @@ class TaskViewModel : ViewModel() {
 
     fun checkBoxRemoveTask(task: TaskModel) {
         viewModelScope.launch {
+            task.isDone=true
             delay(500.milliseconds)
             removeTask(task)
         }

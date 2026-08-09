@@ -64,7 +64,6 @@ fun App() {
                         },
                         onFinished = { task ->
                             taskViewModel.checkBoxRemoveTask(task)
-                            taskViewModel.removeTask(task)
                         }
                     )
                 }
