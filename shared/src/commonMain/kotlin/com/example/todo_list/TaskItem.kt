@@ -11,21 +11,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.milliseconds
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.todo_list.model.TaskModel
+import com.example.todo_list.viewModel.TaskViewModel
 
 @Composable
-fun TaskItem(task: Task, onClick: () -> Unit,onFinished:(Task)->Unit) {
+fun TaskItem(task: TaskModel, onClick: () -> Unit, onFinished: (TaskModel) -> Unit) {
+
+    val taskViewModel = viewModel { TaskViewModel() }
     val checkedState = remember { mutableStateOf(false) }
-    val scope= rememberCoroutineScope()
+
     Row(
         modifier = Modifier
             .background(Color.White)
@@ -36,11 +37,8 @@ fun TaskItem(task: Task, onClick: () -> Unit,onFinished:(Task)->Unit) {
             checkedState.value,
             onCheckedChange = {
                 checkedState.value = true
-                scope.launch {
-                    delay(500.milliseconds)
-                    onFinished(task)
-                }
-                },
+                taskViewModel.checkBoxRemoveTask(task)
+            },
         )
         Column {
             Text(

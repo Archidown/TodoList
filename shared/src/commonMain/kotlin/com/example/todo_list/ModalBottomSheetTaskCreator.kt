@@ -21,10 +21,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.todo_list.viewModel.TaskViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, String) -> Unit) {
+    val taskViewModel = viewModel { TaskViewModel() }
     val sheetState = rememberModalBottomSheetState()
     val titleState = rememberTextFieldState()
     val descriptionState = rememberTextFieldState()
@@ -61,7 +64,7 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
             ) { Text(dateText) }
             Button(
                 onClick = {
-                    if (checkTask(titleState.text.toString(), dateText))
+                    if (taskViewModel.checkTask(titleState.text.toString(), dateText))
                         onAddTask(
                             titleState.text.toString(),
                             descriptionState.text.toString(),
@@ -88,7 +91,4 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
 
 }
 
-fun checkTask(title: String, date: String): Boolean {
-    return !(title == "" || date == "Date")
-}
 

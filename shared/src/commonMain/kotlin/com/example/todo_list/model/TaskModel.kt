@@ -1,6 +1,6 @@
-package com.example.todo_list
+package com.example.todo_list.model
 
-data class Task(
+data class TaskModel(
     val id:Long,
     val title: String,
     val description: String,

@@ -19,6 +19,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.todo_list.viewModel.TaskViewModel
 import org.jetbrains.compose.resources.painterResource
 import todolist.shared.generated.resources.Res
 import todolist.shared.generated.resources.add_24px
@@ -26,7 +29,8 @@ import todolist.shared.generated.resources.add_24px
 @Composable
 @Preview
 fun App() {
-    var tasks by remember { mutableStateOf(emptyList<Task>()) }
+    val taskViewModel = viewModel { TaskViewModel() }
+    val taskList = taskViewModel.taskList.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
     var showTaskEdit by remember { mutableStateOf(false) }
     var taskTitle by remember { mutableStateOf("") }
@@ -49,7 +53,7 @@ fun App() {
                 fontWeight = FontWeight.Bold
             )
             LazyColumn {
-                items(items = tasks, key = { it.id }) { task ->
+                items(items = taskList.value, key = { it.id }) { task ->
                     TaskItem(
                         task,
                         onClick = {
@@ -58,22 +62,17 @@ fun App() {
                             taskDescription = task.description
                             taskDate = task.date
                         },
-                        onFinished = {task->
-                            tasks=tasks.filter{it != task}
+                        onFinished = { task ->
+                            taskViewModel.removeTask(task)
                         }
-                        )
+                    )
                 }
             }
             if (showDialog) {
                 ModalBottomSheetItem(
                     onDismiss = { showDialog = false },
                     onAddTask = { title, description, date ->
-                        tasks = tasks + Task(
-                            id = (tasks.maxOfOrNull { it.id } ?: 0) + 1,
-                            title = title,
-                            date = date,
-                            description = description
-                        )
+                        taskViewModel.addTask(title, description, date)
                         showDialog = false
                     }
                 )
@@ -84,7 +83,7 @@ fun App() {
                     description = taskDescription,
                     date = taskDate,
                     onDismissRequest = { showTaskEdit = false },
-                    )
+                )
             }
         }
     }
