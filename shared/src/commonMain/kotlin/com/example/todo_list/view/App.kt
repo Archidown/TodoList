@@ -16,20 +16,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.todo_list.model.TaskDao
 import com.example.todo_list.viewModel.TaskViewModel
 import org.jetbrains.compose.resources.painterResource
 import todolist.shared.generated.resources.Res
 import todolist.shared.generated.resources.add_24px
 
 @Composable
-@Preview
-fun App() {
-    val taskViewModel = viewModel { TaskViewModel() }
+fun App(taskDao: TaskDao) {
+    val taskViewModel = viewModel { TaskViewModel(taskDao) }
     val taskList = taskViewModel.taskList.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
     var showTaskEdit by remember { mutableStateOf(false) }
