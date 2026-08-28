@@ -31,7 +31,7 @@ class TaskViewModel(private val taskDao: TaskDao) : ViewModel() {
     }
 
     fun checkTask(title: String, date: String): Boolean {
-        return !(title == "" || date == "Date")
+       return title.isNotBlank() && date.isNotBlank() && date !="Date"
     }
 
     fun checkBoxRemoveTask(task: TaskModel) {
