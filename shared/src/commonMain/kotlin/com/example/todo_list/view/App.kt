@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -22,9 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo_list.model.TaskDao
 import com.example.todo_list.viewModel.TaskViewModel
-import org.jetbrains.compose.resources.painterResource
-import todolist.shared.generated.resources.Res
-import todolist.shared.generated.resources.add_24px
+
 
 @Composable
 fun App(taskDao: TaskDao) {
@@ -97,8 +97,8 @@ fun ButtonAdd(onClick: () -> Unit) {
         onClick = onClick
     ) {
         Icon(
-            painterResource(Res.drawable.add_24px),
-            contentDescription = "floating button add"
+            imageVector = Icons.Default.Add,
+            contentDescription = "button add task"
         )
     }
 }
