@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,8 +36,8 @@ fun TaskItem(task: TaskModel, onClick: () -> Unit, onFinished: (TaskModel) -> Un
                 onFinished(task)
             },
             colors = CheckboxDefaults.colors(
-                checkedColor = Color.White,
-                uncheckedColor = Color.White
+                checkedColor = MaterialTheme.colorScheme.outline,
+                uncheckedColor = MaterialTheme.colorScheme.outline
             )
         )
         Column {
@@ -45,15 +46,18 @@ fun TaskItem(task: TaskModel, onClick: () -> Unit, onFinished: (TaskModel) -> Un
                 fontSize = 20.sp,
                 modifier = Modifier.padding(bottom = 2.dp),
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = MaterialTheme.colorScheme.onSecondary
             )
             Text(
                 text = task.description,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = Color.White
+                color = MaterialTheme.colorScheme.onSecondary
             )
-            Text(task.date)
+            Text(
+                text = task.date,
+                color = MaterialTheme.colorScheme.onSecondary
+            )
         }
 
     }

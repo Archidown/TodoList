@@ -9,11 +9,11 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -24,13 +24,13 @@ import kotlin.time.Instant
 fun DatePickerItem(onDatePicked: (String) -> Unit, onDismiss: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.background(Color.White)
+        modifier = Modifier.background(MaterialTheme.colorScheme.background)
     ) {
         val state = rememberDatePickerState(initialDisplayMode = DisplayMode.Input)
         DatePicker(
             state = state,
             modifier = Modifier.padding(16.dp),
-            colors = DatePickerDefaults.colors(Color.White)
+            colors = DatePickerDefaults.colors(MaterialTheme.colorScheme.onPrimary)
         )
         val date = state.selectedDateMillis
         Button(onClick = {

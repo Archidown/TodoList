@@ -1,6 +1,9 @@
 package com.example.todo_list.view
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -8,6 +11,7 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -34,7 +38,8 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         modifier = Modifier.fillMaxSize(),
-        dragHandle = null
+        dragHandle = null,
+        containerColor = MaterialTheme.colorScheme.background
 
     ) {
         Column(
@@ -56,18 +61,27 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
                     .fillMaxWidth(),
                 label = { Text("description") },
             )
-            Button(
-                onClick = { showSheet = true }
-            ) { Text(dateText) }
-            Button(
-                onClick = {
-                    onAddTask(
-                        titleState.text.toString(),
-                        descriptionState.text.toString(),
-                        dateText
-                    )
+            Spacer(Modifier.padding(bottom = 10.dp))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                Button(
+                    onClick = { showSheet = true }
+                ) {
+                    Text(dateText)
                 }
-            ) { Text("Create") }
+                Button(
+                    onClick = {
+                        onAddTask(
+                            titleState.text.toString(),
+                            descriptionState.text.toString(),
+                            dateText
+                        )
+                    }
+                ) {
+                    Text("Create")
+                }
+            }
             if (showSheet) {
                 LaunchedEffect(Unit) {
                     sheetState.hide()

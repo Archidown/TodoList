@@ -2,8 +2,6 @@ package com.example.todo_list.view.themes
 
 import androidx.compose.ui.graphics.Color
 
-val Background = Color(0xFF1C1C1E)
-val Surface = Color(0xFF2A2A2C)
 
 
 // Brand accent (same red in both modes)
