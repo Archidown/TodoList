@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.todo_list.view.themes.Accent
+import com.example.todo_list.view.themes.OnAccent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,7 +69,11 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Button(
-                    onClick = { showSheet = true }
+                    onClick = { showSheet = true },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Accent,
+                        contentColor = OnAccent
+                    )
                 ) {
                     Text(dateText)
                 }
@@ -77,7 +84,11 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
                             descriptionState.text.toString(),
                             dateText
                         )
-                    }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Accent,
+                        contentColor = OnAccent
+                    )
                 ) {
                     Text("Create")
                 }
