@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -26,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.todo_list.view.icons.date_range
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.themes.OnAccent
 
@@ -75,6 +77,8 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
                         contentColor = OnAccent
                     )
                 ) {
+                    Icon(imageVector = date_range, contentDescription = "dateIcon")
+                    Spacer(modifier = Modifier.padding(horizontal = 3.dp))
                     Text(dateText)
                 }
                 Button(

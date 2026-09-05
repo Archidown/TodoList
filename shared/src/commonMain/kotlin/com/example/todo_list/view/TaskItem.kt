@@ -12,7 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -26,7 +25,7 @@ fun TaskItem(task: TaskModel, onClick: () -> Unit, onFinished: (TaskModel) -> Un
 
     Row(
         modifier = Modifier
-            .background(Color.DarkGray)
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxWidth()
             .clickable(onClick = onClick),
     ) {
@@ -38,7 +37,7 @@ fun TaskItem(task: TaskModel, onClick: () -> Unit, onFinished: (TaskModel) -> Un
             colors = CheckboxDefaults.colors(
                 checkedColor = MaterialTheme.colorScheme.outline,
                 uncheckedColor = MaterialTheme.colorScheme.outline
-            )
+            ),
         )
         Column {
             Text(
@@ -46,17 +45,17 @@ fun TaskItem(task: TaskModel, onClick: () -> Unit, onFinished: (TaskModel) -> Un
                 fontSize = 20.sp,
                 modifier = Modifier.padding(bottom = 2.dp),
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSecondary
+                color = MaterialTheme.colorScheme.onPrimary
             )
             Text(
                 text = task.description,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = MaterialTheme.colorScheme.onSecondary
+                color = MaterialTheme.colorScheme.onPrimary
             )
             Text(
                 text = task.date,
-                color = MaterialTheme.colorScheme.onSecondary
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
 
