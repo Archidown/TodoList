@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.todo_list.view.icons.arrow_circle_up
 import com.example.todo_list.view.icons.date_range
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.themes.OnAccent
@@ -96,7 +97,7 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
                         contentColor = OnAccent
                     )
                 ) {
-                    Text("Create")
+                    Icon(imageVector = arrow_circle_up, contentDescription = "sendIcon")
                 }
             }
             if (showSheet) {
