@@ -36,7 +36,7 @@ import com.example.todo_list.view.themes.OnAccent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, String) -> Unit) {
+fun ModalBottomSheetTaskCreator(onDismiss: () -> Unit, onAddTask: (String, String, String) -> Unit) {
     val sheetState = rememberModalBottomSheetState()
     val titleState = rememberTextFieldState()
     val descriptionState = rememberTextFieldState()

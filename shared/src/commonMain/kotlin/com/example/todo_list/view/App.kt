@@ -77,7 +77,7 @@ fun App(taskDao: TaskDao) {
                     }
                 }
                 if (showDialog) {
-                    ModalBottomSheetItem(
+                    ModalBottomSheetTaskCreator(
                         onDismiss = { showDialog = false },
                         onAddTask = { title, description, date ->
                             if (taskViewModel.checkTask(title, date)) {

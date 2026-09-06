@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todo_list.view.themes.Accent
+import com.example.todo_list.view.utils.dateFormat
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Instant
@@ -56,7 +57,7 @@ fun DatePickerItem(onDatePicked: (String) -> Unit, onDismiss: () -> Unit) {
                         val correctDate = Instant.fromEpochMilliseconds(date)
                             .toLocalDateTime(TimeZone.UTC)
                             .date
-                        onDatePicked(correctDate.toString())
+                        onDatePicked(correctDate.dateFormat())
                         onDismiss()
 
                     }
