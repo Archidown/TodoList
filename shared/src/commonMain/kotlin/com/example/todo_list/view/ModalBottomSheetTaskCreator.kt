@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.rememberTextFieldState
@@ -16,7 +15,9 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todo_list.view.icons.date_range
@@ -42,7 +44,6 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        modifier = Modifier.fillMaxSize(),
         dragHandle = null,
         containerColor = MaterialTheme.colorScheme.background
 
@@ -57,14 +58,15 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
                 modifier = Modifier
                     .fillMaxWidth(),
                 label = { Text("title", fontSize = 30.sp) },
-                placeholder = { Text(text = "Insert Title", fontSize = 30.sp) },
-                textStyle = LocalTextStyle.current.copy(fontSize = 30.sp)
+                textStyle = LocalTextStyle.current.copy(fontSize = 30.sp),
+                colors = taskCreatorTextFieldColors()
             )
             OutlinedTextField(
                 state = descriptionState,
                 modifier = Modifier
                     .fillMaxWidth(),
                 label = { Text("description") },
+                colors = taskCreatorTextFieldColors()
             )
             Spacer(Modifier.padding(bottom = 10.dp))
             Row(
@@ -114,6 +116,18 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
         }
     }
 
+}
+
+@Composable
+fun taskCreatorTextFieldColors(): TextFieldColors {
+    val textFieldColor= OutlinedTextFieldDefaults.colors(
+        focusedBorderColor = Color.Transparent,
+        unfocusedBorderColor = Color.Transparent,
+        focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
+        focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary,
+        cursorColor = MaterialTheme.colorScheme.onPrimary,
+    )
+    return textFieldColor
 }
 
 

@@ -10,6 +10,7 @@ import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -32,7 +33,19 @@ fun DatePickerItem(onDatePicked: (String) -> Unit, onDismiss: () -> Unit) {
         DatePicker(
             state = state,
             modifier = Modifier.padding(16.dp),
-            colors = DatePickerDefaults.colors(MaterialTheme.colorScheme.background)
+            colors = DatePickerDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.background,
+                selectedDayContainerColor = Accent,
+                dateTextFieldColors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.onPrimary,
+                    focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary,
+                ),
+                todayContentColor = MaterialTheme.colorScheme.onPrimary,
+                todayDateBorderColor = MaterialTheme.colorScheme.onPrimary,
+                currentYearContentColor = MaterialTheme.colorScheme.onPrimary,
+                selectedYearContainerColor = Accent
+            )
         )
         val date = state.selectedDateMillis
         Button(
