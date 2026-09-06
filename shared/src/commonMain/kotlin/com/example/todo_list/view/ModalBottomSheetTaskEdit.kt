@@ -5,14 +5,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,12 +35,24 @@ fun ModalBottomSheetTaskEdit(
     ) {
         Column(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(15.dp)
                 .fillMaxWidth()
-                .background(Color.Red)
+                .clip(shape = RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(horizontal = 15.dp, vertical = 10.dp)
         ) {
-            Text(title)
-            Text(description)
+            Text(
+                text = title,
+                fontWeight = FontWeight.Bold,
+                fontSize = 25.sp,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, modifier = Modifier.padding(vertical = 8.dp))
+            if (description!=""){
+                Text(description)
+                HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.outlineVariant)
+            }
+
             Text(date)
         }
     }
