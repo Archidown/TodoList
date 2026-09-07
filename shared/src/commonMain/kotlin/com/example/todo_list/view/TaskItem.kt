@@ -2,6 +2,7 @@ package com.example.todo_list.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +28,8 @@ fun TaskItem(task: TaskModel, onClick: () -> Unit, onFinished: (TaskModel) -> Un
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .padding(vertical = 12.dp)
     ) {
         Checkbox(
             checked = task.isDone,
@@ -39,11 +41,12 @@ fun TaskItem(task: TaskModel, onClick: () -> Unit, onFinished: (TaskModel) -> Un
                 uncheckedColor = MaterialTheme.colorScheme.outline
             ),
         )
-        Column {
+        Column(
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
             Text(
                 text = task.title,
                 fontSize = 20.sp,
-                modifier = Modifier.padding(bottom = 2.dp),
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onPrimary
             )

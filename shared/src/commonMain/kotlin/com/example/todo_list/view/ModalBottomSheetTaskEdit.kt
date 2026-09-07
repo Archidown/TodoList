@@ -50,7 +50,10 @@ fun ModalBottomSheetTaskEdit(
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, modifier = Modifier.padding(vertical = 8.dp))
             if (description!=""){
                 Text(description)
-                HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.outlineVariant)
+                HorizontalDivider(
+                    color = MaterialTheme.colorScheme.outlineVariant,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
             }
 
             Text(date)
