@@ -7,6 +7,7 @@ import kotlinx.datetime.format.Padding
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
+import kotlin.time.Instant
 
 fun LocalDate.dateFormat(): String {
     val currentYear = Clock.System.now()
@@ -23,4 +24,10 @@ fun LocalDate.dateFormat(): String {
 
     }
     return dateFormat.format(this)
+}
+
+fun Long.toLocalDateUtc(): LocalDate {
+    return Instant.fromEpochMilliseconds(this)
+        .toLocalDateTime(TimeZone.UTC)
+        .date
 }

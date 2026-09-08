@@ -22,9 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.utils.dateFormat
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Instant
+import com.example.todo_list.view.utils.toLocalDateUtc
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -53,19 +51,17 @@ fun DatePickerItem(onDatePicked: (String) -> Unit, onDismiss: () -> Unit) {
             }
             Button(
                 onClick = {
-                    if (date != null) {
-                        val correctDate = Instant.fromEpochMilliseconds(date)
-                            .toLocalDateTime(TimeZone.UTC)
-                            .date
-                        onDatePicked(correctDate.dateFormat())
+                    date?.let { date ->
+                        onDatePicked(date.toLocalDateUtc().dateFormat())
                         onDismiss()
-
                     }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
-                    contentColor = Accent
-                )
+                    contentColor = Accent,
+                    disabledContainerColor = Color.Transparent
+                ),
+                enabled = date != null
             ) {
                 Text(
                     text = "OK",
