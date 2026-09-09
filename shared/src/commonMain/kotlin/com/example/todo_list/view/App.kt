@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo_list.model.TaskDao
-import com.example.todo_list.model.TaskModel
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.themes.AppTheme
 import com.example.todo_list.view.themes.OnAccent
@@ -37,14 +36,15 @@ fun App(taskDao: TaskDao) {
     val taskViewModel = viewModel { TaskViewModel(taskDao) }
     val taskList = taskViewModel.taskList.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
-    var currentTask by remember { mutableStateOf<TaskModel?>(null) }
+    var currentTaskId by remember { mutableStateOf<Long?>(null) }
+    val currentTask = taskList.value.find { it.id == currentTaskId }
     AppTheme {
         Scaffold(
             floatingActionButton = {
                 ButtonAdd(onClick = {
                     showDialog = true
                 })
-            },//showDialog is read just a visual bug
+            },
             containerColor = MaterialTheme.colorScheme.background
         ) { innerPadding ->
             Column(
@@ -63,7 +63,7 @@ fun App(taskDao: TaskDao) {
                         TaskItem(
                             task,
                             onClick = {
-                                currentTask = task
+                                currentTaskId = task.id
                             },
                             onFinished = { task ->
                                 taskViewModel.checkBoxRemoveTask(task)
@@ -85,7 +85,7 @@ fun App(taskDao: TaskDao) {
                 currentTask?.let { task ->
                     ModalBottomSheetTaskEdit(
                         task = task,
-                        onDismiss = { currentTask = null },
+                        onDismiss = { currentTaskId = null },
                         onSave = { title, description, date ->
                             taskViewModel.taskEdit(
                                 task = task,
@@ -93,10 +93,11 @@ fun App(taskDao: TaskDao) {
                                 newDescription = description,
                                 newDate = date
                             )
-                            currentTask = null
+                            currentTaskId = null
                         },
                         onFinished = { task ->
                             taskViewModel.checkBoxRemoveTask(task)
+                            currentTaskId = null
                         }
                     )
                 }
