@@ -25,6 +25,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -166,7 +167,9 @@ fun ModalBottomSheetTaskEdit(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable { showDatePicker = true }
-                            .padding(vertical = 12.dp),
+                            .padding(
+                                OutlinedTextFieldDefaults.contentPadding(),
+                            ),
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
@@ -204,6 +207,6 @@ private fun EditRow(
             modifier = Modifier.size(48.dp),
             contentAlignment = Alignment.Center
         ) { leading() }
-        Box(modifier = Modifier.weight(1f)) { content() }
+        Box { content() }
     }
 }
