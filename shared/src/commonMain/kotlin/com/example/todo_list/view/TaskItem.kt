@@ -20,10 +20,11 @@ import androidx.compose.ui.unit.sp
 import com.example.todo_list.model.TaskModel
 
 @Composable
-fun TaskItem(task: TaskModel, onClick: () -> Unit, onFinished: (TaskModel) -> Unit) {
-
-
-
+fun TaskItem(
+    task: TaskModel,
+    onClick: () -> Unit,
+    onFinished: (TaskModel) -> Unit
+) {
     Row(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)

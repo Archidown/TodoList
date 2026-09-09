@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo_list.model.TaskDao
+import com.example.todo_list.model.TaskModel
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.themes.AppTheme
 import com.example.todo_list.view.themes.OnAccent
@@ -36,10 +37,7 @@ fun App(taskDao: TaskDao) {
     val taskViewModel = viewModel { TaskViewModel(taskDao) }
     val taskList = taskViewModel.taskList.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
-    var showTaskEdit by remember { mutableStateOf(false) }
-    var taskTitle by remember { mutableStateOf("") }
-    var taskDescription by remember { mutableStateOf("") }
-    var taskDate by remember { mutableStateOf("") }
+    var currentTask by remember { mutableStateOf<TaskModel?>(null) }
     AppTheme {
         Scaffold(
             floatingActionButton = {
@@ -65,10 +63,7 @@ fun App(taskDao: TaskDao) {
                         TaskItem(
                             task,
                             onClick = {
-                                showTaskEdit = true
-                                taskTitle = task.title
-                                taskDescription = task.description
-                                taskDate = task.date
+                                currentTask = task
                             },
                             onFinished = { task ->
                                 taskViewModel.checkBoxRemoveTask(task)
@@ -87,12 +82,22 @@ fun App(taskDao: TaskDao) {
                         }
                     )
                 }
-                if (showTaskEdit) {
+                currentTask?.let { task ->
                     ModalBottomSheetTaskEdit(
-                        title = taskTitle,
-                        description = taskDescription,
-                        date = taskDate,
-                        onDismissRequest = { showTaskEdit = false },
+                        task = task,
+                        onDismiss = { currentTask = null },
+                        onSave = { title, description, date ->
+                            taskViewModel.taskEdit(
+                                task = task,
+                                newTitle = title,
+                                newDescription = description,
+                                newDate = date
+                            )
+                            currentTask = null
+                        },
+                        onFinished = { task ->
+                            taskViewModel.checkBoxRemoveTask(task)
+                        }
                     )
                 }
             }
