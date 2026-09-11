@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -29,7 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.todo_list.view.icons.arrow_circle_up
+import com.example.todo_list.view.icons.LucideArrowUp
 import com.example.todo_list.view.icons.date_range
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.themes.OnAccent
@@ -84,7 +87,7 @@ fun ModalBottomSheetTaskCreator(onDismiss: () -> Unit, onAddTask: (String, Strin
                     Spacer(modifier = Modifier.padding(horizontal = 3.dp))
                     Text(dateText)
                 }
-                Button(
+                FilledIconButton(
                     onClick = {
                         onAddTask(
                             titleState.text.toString(),
@@ -92,13 +95,19 @@ fun ModalBottomSheetTaskCreator(onDismiss: () -> Unit, onAddTask: (String, Strin
                             dateText
                         )
                     },
-                    colors = ButtonDefaults.buttonColors(
+                    modifier = Modifier.size(48.dp),
+                    colors = IconButtonDefaults.filledIconButtonColors(
                         containerColor = Accent,
                         contentColor = OnAccent
-                    )
+                    ),
+                    enabled = titleState.text.toString().isNotEmpty() && dateText != "Date"
                 ) {
-                    Icon(imageVector = arrow_circle_up, contentDescription = "sendIcon")
+                    Icon(
+                        imageVector = LucideArrowUp,
+                        contentDescription = "sendIcon"
+                    )
                 }
+
             }
             if (showSheet) {
                 LaunchedEffect(Unit) {
