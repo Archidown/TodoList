@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -33,13 +32,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todo_list.view.icons.LucideArrowUp
+import com.example.todo_list.view.icons.attach_file
 import com.example.todo_list.view.icons.date_range
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.themes.OnAccent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalBottomSheetTaskCreator(onDismiss: () -> Unit, onAddTask: (String, String, String) -> Unit) {
+fun ModalBottomSheetTaskCreator(
+    onDismiss: () -> Unit,
+    onAddTask: (String, String, String) -> Unit
+) {
     val sheetState = rememberModalBottomSheetState()
     val titleState = rememberTextFieldState()
     val descriptionState = rememberTextFieldState()
@@ -61,7 +64,7 @@ fun ModalBottomSheetTaskCreator(onDismiss: () -> Unit, onAddTask: (String, Strin
                 state = titleState,
                 modifier = Modifier
                     .fillMaxWidth(),
-                label = { Text("title", fontSize = 30.sp) },
+                label = { Text("Title", fontSize = 30.sp) },
                 textStyle = LocalTextStyle.current.copy(fontSize = 30.sp),
                 colors = taskCreatorTextFieldColors()
             )
@@ -69,7 +72,7 @@ fun ModalBottomSheetTaskCreator(onDismiss: () -> Unit, onAddTask: (String, Strin
                 state = descriptionState,
                 modifier = Modifier
                     .fillMaxWidth(),
-                label = { Text("description") },
+                label = { Text("Description") },
                 colors = taskCreatorTextFieldColors()
             )
             Spacer(Modifier.padding(bottom = 10.dp))
@@ -88,6 +91,19 @@ fun ModalBottomSheetTaskCreator(onDismiss: () -> Unit, onAddTask: (String, Strin
                     Text(dateText)
                 }
                 FilledIconButton(
+                    onClick = {},
+                    colors = IconButtonDefaults.filledIconButtonColors(
+                        containerColor = Accent,
+                        contentColor = OnAccent
+                    ),
+                ) {
+                    Icon(
+                        imageVector = attach_file,
+                        contentDescription = "attachment Icon"
+                    )
+                }
+                Spacer(Modifier.weight(1f))
+                FilledIconButton(
                     onClick = {
                         onAddTask(
                             titleState.text.toString(),
@@ -95,16 +111,15 @@ fun ModalBottomSheetTaskCreator(onDismiss: () -> Unit, onAddTask: (String, Strin
                             dateText
                         )
                     },
-                    modifier = Modifier.size(48.dp),
                     colors = IconButtonDefaults.filledIconButtonColors(
                         containerColor = Accent,
                         contentColor = OnAccent
                     ),
-                    enabled = titleState.text.toString().isNotEmpty() && dateText != "Date"
+                    enabled = titleState.text.toString().isNotEmpty() && dateText != "Date",
                 ) {
                     Icon(
                         imageVector = LucideArrowUp,
-                        contentDescription = "sendIcon"
+                        contentDescription = "send Icon"
                     )
                 }
 
@@ -130,7 +145,7 @@ fun ModalBottomSheetTaskCreator(onDismiss: () -> Unit, onAddTask: (String, Strin
 
 @Composable
 fun taskCreatorTextFieldColors(): TextFieldColors {
-    val textFieldColor= OutlinedTextFieldDefaults.colors(
+    val textFieldColor = OutlinedTextFieldDefaults.colors(
         focusedBorderColor = Color.Transparent,
         unfocusedBorderColor = Color.Transparent,
         focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
