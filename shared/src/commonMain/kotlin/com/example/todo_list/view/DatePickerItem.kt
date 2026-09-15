@@ -27,7 +27,7 @@ import com.example.todo_list.view.utils.toLocalDateUtc
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DatePickerItem(onDatePicked: (String) -> Unit, onDismiss: () -> Unit) {
-    val state = rememberDatePickerState(initialDisplayMode = DisplayMode.Input)
+    val state = rememberDatePickerState(initialDisplayMode = DisplayMode.Picker)
     val date = state.selectedDateMillis
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
