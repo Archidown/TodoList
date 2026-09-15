@@ -59,13 +59,15 @@ fun ModalBottomSheetTaskEdit(
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
         modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 5.dp),
+            .fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.background,
+        dragHandle = null
 
         ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
