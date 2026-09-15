@@ -27,9 +27,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,7 +56,6 @@ fun ModalBottomSheetTaskEdit(
     val taskDescription = rememberTextFieldState(initialText = task.description)
     var taskDate by remember { mutableStateOf(task.date) }
     var showDatePicker by remember { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState()
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
         modifier = Modifier
@@ -176,18 +173,11 @@ fun ModalBottomSheetTaskEdit(
             )
 
             if (showDatePicker) {
-                LaunchedEffect(Unit) {
-                    sheetState.hide()
-                }
                 ModalBottomSheetDatePicker(
                     onDismiss = { showDatePicker = false },
                     onDatePicked = { date ->
                         taskDate = date
                     })
-            } else {
-                LaunchedEffect(Unit) {
-                    sheetState.show()
-                }
             }
 
         }
