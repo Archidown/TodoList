@@ -64,15 +64,26 @@ fun ModalBottomSheetTaskCreator(
                 state = titleState,
                 modifier = Modifier
                     .fillMaxWidth(),
-                label = { Text("Title", fontSize = 30.sp) },
-                textStyle = LocalTextStyle.current.copy(fontSize = 30.sp),
+                placeholder = {
+                    Text(
+                        text = "Title",
+                        fontSize = 30.sp,
+                        color = MaterialTheme.colorScheme.onSecondary
+                    )
+                },
+                textStyle = LocalTextStyle.current.copy(fontSize = 30.sp, lineHeight = 38.sp),
                 colors = taskCreatorTextFieldColors()
             )
             OutlinedTextField(
                 state = descriptionState,
                 modifier = Modifier
                     .fillMaxWidth(),
-                label = { Text("Description") },
+                placeholder = {
+                    Text(
+                        text = "Description",
+                        color = MaterialTheme.colorScheme.onSecondary
+                    )
+                },
                 colors = taskCreatorTextFieldColors()
             )
             Spacer(Modifier.padding(bottom = 10.dp))
