@@ -43,6 +43,7 @@ import com.example.todo_list.model.TaskModel
 import com.example.todo_list.view.icons.date_range
 import com.example.todo_list.view.icons.text_ad
 import com.example.todo_list.view.themes.Accent
+import com.example.todo_list.view.utils.rememberHideKeyboard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,6 +57,7 @@ fun ModalBottomSheetTaskEdit(
     val taskDescription = rememberTextFieldState(initialText = task.description)
     var taskDate by remember { mutableStateOf(task.date) }
     var showDatePicker by remember { mutableStateOf(false) }
+
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
         modifier = Modifier
@@ -63,7 +65,8 @@ fun ModalBottomSheetTaskEdit(
         containerColor = MaterialTheme.colorScheme.background,
         dragHandle = null
 
-        ) {
+    ) {
+        val hideKeyboard = rememberHideKeyboard()
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,7 +74,10 @@ fun ModalBottomSheetTaskEdit(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = onDismiss,
+                onClick = {
+                    hideKeyboard()
+                    onDismiss()
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
                     contentColor = Accent
@@ -81,6 +87,7 @@ fun ModalBottomSheetTaskEdit(
             }
             Button(
                 onClick = {
+                    hideKeyboard()
                     onSave(
                         taskTitle.text.toString(),
                         taskDescription.text.toString(),
@@ -157,7 +164,10 @@ fun ModalBottomSheetTaskEdit(
                 modifier = Modifier.padding(vertical = 8.dp)
             )
             EditRow(
-                onClick = { showDatePicker = true },
+                onClick = {
+                    hideKeyboard()
+                    showDatePicker = true
+                },
                 leading = {
                     Icon(imageVector = date_range, contentDescription = "date Icon")
                 },
