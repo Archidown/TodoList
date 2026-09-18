@@ -157,6 +157,7 @@ fun ModalBottomSheetTaskEdit(
                 modifier = Modifier.padding(vertical = 8.dp)
             )
             EditRow(
+                onClick = { showDatePicker = true },
                 leading = {
                     Icon(imageVector = date_range, contentDescription = "date Icon")
                 },
@@ -165,7 +166,6 @@ fun ModalBottomSheetTaskEdit(
                         text = taskDate,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { showDatePicker = true }
                             .padding(
                                 OutlinedTextFieldDefaults.contentPadding(),
                             ),
@@ -189,10 +189,15 @@ fun ModalBottomSheetTaskEdit(
 @Composable
 private fun EditRow(
     leading: @Composable () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
+    onClick: (() -> Unit)? = null
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(
+                if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
