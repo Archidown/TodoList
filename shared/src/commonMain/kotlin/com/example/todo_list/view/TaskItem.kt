@@ -68,11 +68,11 @@ fun TaskItem(
                 text = task.date,
                 color = MaterialTheme.colorScheme.onPrimary
             )
-            HorizontalDivider(
-                color = MaterialTheme.colorScheme.outlineVariant,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
         }
 
     }
+    HorizontalDivider(
+        color = MaterialTheme.colorScheme.outlineVariant,
+        modifier = Modifier.padding(8.dp)
+    )
 }
