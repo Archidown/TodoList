@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +39,7 @@ import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.themes.OnAccent
 import com.example.todo_list.view.utils.dismissWithAnimation
 import com.example.todo_list.view.utils.rememberHideKeyboard
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,6 +47,7 @@ fun ModalBottomSheetTaskCreator(
     onDismiss: () -> Unit,
     onAddTask: (String, String, String) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     val titleState = rememberTextFieldState()
     val descriptionState = rememberTextFieldState()
@@ -152,14 +155,13 @@ fun ModalBottomSheetTaskCreator(
                     sheetState.hide()
                 }
                 ModalBottomSheetDatePicker(
-                    onDismiss = { showSheet = false },
+                    onDismiss = {
+                        showSheet = false
+                        scope.launch { sheetState.show() }
+                    },
                     onDatePicked = { date ->
                         dateText = date
                     })
-            } else {
-                LaunchedEffect(Unit) {
-                    sheetState.show()
-                }
             }
         }
     }
