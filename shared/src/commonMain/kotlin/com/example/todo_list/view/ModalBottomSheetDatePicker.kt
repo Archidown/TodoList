@@ -9,14 +9,15 @@ import androidx.compose.runtime.Composable
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModalBottomSheetDatePicker(onDismiss: () -> Unit, onDatePicked: (String) -> Unit) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        sheetState = sheetState,
         onDismissRequest = onDismiss,
         dragHandle = null,
         containerColor = MaterialTheme.colorScheme.background
     ){
 
-        DatePickerItem(onDatePicked, onDismiss)
+        DatePickerItem(onDatePicked, onDismiss, sheetState)
     }
 }
 

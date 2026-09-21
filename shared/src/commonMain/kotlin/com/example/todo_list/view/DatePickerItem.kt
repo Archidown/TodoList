@@ -10,9 +10,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DisplayMode
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -22,13 +24,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.utils.dateFormat
+import com.example.todo_list.view.utils.dismissWithAnimation
 import com.example.todo_list.view.utils.toLocalDateUtc
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerItem(onDatePicked: (String) -> Unit, onDismiss: () -> Unit) {
+fun DatePickerItem(onDatePicked: (String) -> Unit, onDismiss: () -> Unit, sheetState: SheetState) {
     val state = rememberDatePickerState(initialDisplayMode = DisplayMode.Picker)
     val date = state.selectedDateMillis
+    val dismissWithAnimation = dismissWithAnimation(sheetState = sheetState, onDismiss = onDismiss)
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(20.dp)
@@ -38,12 +42,14 @@ fun DatePickerItem(onDatePicked: (String) -> Unit, onDismiss: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = onDismiss,
+                onClick = {
+                    dismissWithAnimation()
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
                     contentColor = Accent
                 )
-            ){
+            ) {
                 Text(
                     text = "Cancel",
                     fontSize = 20.sp
@@ -53,7 +59,7 @@ fun DatePickerItem(onDatePicked: (String) -> Unit, onDismiss: () -> Unit) {
                 onClick = {
                     date?.let { date ->
                         onDatePicked(date.toLocalDateUtc().dateFormat())
-                        onDismiss()
+                        dismissWithAnimation()
                     }
                 },
                 colors = ButtonDefaults.buttonColors(

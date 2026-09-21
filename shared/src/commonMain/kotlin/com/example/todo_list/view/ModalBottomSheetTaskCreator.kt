@@ -36,6 +36,7 @@ import com.example.todo_list.view.icons.attach_file
 import com.example.todo_list.view.icons.date_range
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.themes.OnAccent
+import com.example.todo_list.view.utils.dismissWithAnimation
 import com.example.todo_list.view.utils.rememberHideKeyboard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,11 +50,11 @@ fun ModalBottomSheetTaskCreator(
     val descriptionState = rememberTextFieldState()
     var dateText by remember { mutableStateOf("Date") }
     var showSheet by remember { mutableStateOf(false) }
-
+    val dismissWithAnimation = dismissWithAnimation(sheetState = sheetState, onDismiss = onDismiss)
 
     ModalBottomSheet(
         onDismissRequest = {
-            onDismiss()
+            dismissWithAnimation()
         },
         sheetState = sheetState,
         dragHandle = null,
@@ -131,6 +132,7 @@ fun ModalBottomSheetTaskCreator(
                             descriptionState.text.toString(),
                             dateText
                         )
+                        dismissWithAnimation()
                     },
                     colors = IconButtonDefaults.filledIconButtonColors(
                         containerColor = Accent,
@@ -140,7 +142,7 @@ fun ModalBottomSheetTaskCreator(
                 ) {
                     Icon(
                         imageVector = LucideArrowUp,
-                        contentDescription = "send Icon"
+                        contentDescription = "create Task Icon"
                     )
                 }
 

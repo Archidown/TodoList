@@ -77,7 +77,6 @@ fun App(taskDao: TaskDao) {
                         onAddTask = { title, description, date ->
                             if (taskViewModel.checkTask(title, date)) {
                                 taskViewModel.addTask(title, description, date)
-                                showDialog = false
                             }
                         }
                     )
@@ -93,7 +92,6 @@ fun App(taskDao: TaskDao) {
                                 newDescription = description,
                                 newDate = date
                             )
-                            currentTaskId = null
                         },
                         onFinished = { task ->
                             taskViewModel.checkBoxRemoveTask(task)

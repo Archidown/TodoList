@@ -27,6 +27,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +44,7 @@ import com.example.todo_list.model.TaskModel
 import com.example.todo_list.view.icons.date_range
 import com.example.todo_list.view.icons.text_ad
 import com.example.todo_list.view.themes.Accent
+import com.example.todo_list.view.utils.dismissWithAnimation
 import com.example.todo_list.view.utils.rememberHideKeyboard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,13 +59,17 @@ fun ModalBottomSheetTaskEdit(
     val taskDescription = rememberTextFieldState(initialText = task.description)
     var taskDate by remember { mutableStateOf(task.date) }
     var showDatePicker by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState()
+    val dismissWithAnimation = dismissWithAnimation(sheetState = sheetState, onDismiss = onDismiss)
+
 
     ModalBottomSheet(
-        onDismissRequest = { onDismiss() },
+        onDismissRequest = { dismissWithAnimation() },
         modifier = Modifier
             .fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.background,
-        dragHandle = null
+        dragHandle = null,
+        sheetState = sheetState
 
     ) {
         val hideKeyboard = rememberHideKeyboard()
@@ -76,7 +82,7 @@ fun ModalBottomSheetTaskEdit(
             Button(
                 onClick = {
                     hideKeyboard()
-                    onDismiss()
+                    dismissWithAnimation()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
@@ -93,6 +99,7 @@ fun ModalBottomSheetTaskEdit(
                         taskDescription.text.toString(),
                         taskDate
                     )
+                    dismissWithAnimation()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
