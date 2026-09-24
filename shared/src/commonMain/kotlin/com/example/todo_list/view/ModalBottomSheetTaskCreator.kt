@@ -54,6 +54,7 @@ fun ModalBottomSheetTaskCreator(
     var dateText by remember { mutableStateOf("Date") }
     var showSheet by remember { mutableStateOf(false) }
     val dismissWithAnimation = dismissWithAnimation(sheetState = sheetState, onDismiss = onDismiss)
+    var sendInProgress by remember { mutableStateOf(false) }
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -129,6 +130,7 @@ fun ModalBottomSheetTaskCreator(
                 Spacer(Modifier.weight(1f))
                 FilledIconButton(
                     onClick = {
+                        sendInProgress = true
                         hideKeyboard()
                         onAddTask(
                             titleState.text.toString(),
@@ -141,7 +143,8 @@ fun ModalBottomSheetTaskCreator(
                         containerColor = Accent,
                         contentColor = OnAccent
                     ),
-                    enabled = titleState.text.toString().isNotEmpty() && dateText != "Date",
+                    enabled = !sendInProgress && titleState.text.toString()
+                        .isNotEmpty() && dateText != "Date",
                 ) {
                     Icon(
                         imageVector = LucideArrowUp,
