@@ -1,42 +1,71 @@
 package com.example.todo_list.view
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.todo_list.view.icons.LucideArrowUp
+import com.example.todo_list.view.icons.attach_file
+import com.example.todo_list.view.icons.date_range
+import com.example.todo_list.view.themes.Accent
+import com.example.todo_list.view.themes.OnAccent
+import com.example.todo_list.view.utils.dismissWithAnimation
+import com.example.todo_list.view.utils.rememberHideKeyboard
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, String) -> Unit) {
+fun ModalBottomSheetTaskCreator(
+    onDismiss: () -> Unit,
+    onAddTask: (String, String, String) -> Unit
+) {
+    val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     val titleState = rememberTextFieldState()
     val descriptionState = rememberTextFieldState()
     var dateText by remember { mutableStateOf("Date") }
     var showSheet by remember { mutableStateOf(false) }
+    val dismissWithAnimation = dismissWithAnimation(sheetState = sheetState, onDismiss = onDismiss)
+    var sendInProgress by remember { mutableStateOf(false) }
+
     ModalBottomSheet(
-        onDismissRequest = onDismiss,
+        onDismissRequest = {
+            dismissWithAnimation()
+        },
         sheetState = sheetState,
-        modifier = Modifier.fillMaxSize(),
-        dragHandle = null
+        dragHandle = null,
+        containerColor = MaterialTheme.colorScheme.background
 
     ) {
+        val hideKeyboard = rememberHideKeyboard()
         Column(
             modifier = Modifier
                 .padding(20.dp)
@@ -46,45 +75,112 @@ fun ModalBottomSheetItem(onDismiss: () -> Unit, onAddTask: (String, String, Stri
                 state = titleState,
                 modifier = Modifier
                     .fillMaxWidth(),
-                label = { Text("title", fontSize = 30.sp) },
-                placeholder = { Text(text = "Insert Title", fontSize = 30.sp) },
-                textStyle = LocalTextStyle.current.copy(fontSize = 30.sp)
+                placeholder = {
+                    Text(
+                        text = "Title",
+                        fontSize = 30.sp,
+                        color = MaterialTheme.colorScheme.onSecondary
+                    )
+                },
+                textStyle = LocalTextStyle.current.copy(fontSize = 30.sp, lineHeight = 38.sp),
+                colors = taskCreatorTextFieldColors()
             )
             OutlinedTextField(
                 state = descriptionState,
                 modifier = Modifier
                     .fillMaxWidth(),
-                label = { Text("description") },
+                placeholder = {
+                    Text(
+                        text = "Description",
+                        color = MaterialTheme.colorScheme.onSecondary
+                    )
+                },
+                colors = taskCreatorTextFieldColors()
             )
-            Button(
-                onClick = { showSheet = true }
-            ) { Text(dateText) }
-            Button(
-                onClick = {
-                    onAddTask(
-                        titleState.text.toString(),
-                        descriptionState.text.toString(),
-                        dateText
+            Spacer(Modifier.padding(bottom = 10.dp))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                Button(
+                    onClick = {
+                        hideKeyboard()
+                        showSheet = true
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Accent,
+                        contentColor = OnAccent
+                    )
+                ) {
+                    Icon(imageVector = date_range, contentDescription = "dateIcon")
+                    Spacer(modifier = Modifier.padding(horizontal = 3.dp))
+                    Text(dateText)
+                }
+                FilledIconButton(
+                    onClick = {},
+                    colors = IconButtonDefaults.filledIconButtonColors(
+                        containerColor = Accent,
+                        contentColor = OnAccent
+                    ),
+                ) {
+                    Icon(
+                        imageVector = attach_file,
+                        contentDescription = "attachment Icon"
                     )
                 }
-            ) { Text("Create") }
+                Spacer(Modifier.weight(1f))
+                FilledIconButton(
+                    onClick = {
+                        sendInProgress = true
+                        hideKeyboard()
+                        onAddTask(
+                            titleState.text.toString(),
+                            descriptionState.text.toString(),
+                            dateText
+                        )
+                        dismissWithAnimation()
+                    },
+                    colors = IconButtonDefaults.filledIconButtonColors(
+                        containerColor = Accent,
+                        contentColor = OnAccent
+                    ),
+                    enabled = !sendInProgress && titleState.text.toString()
+                        .isNotEmpty() && dateText != "Date",
+                ) {
+                    Icon(
+                        imageVector = LucideArrowUp,
+                        contentDescription = "create Task Icon"
+                    )
+                }
+
+            }
             if (showSheet) {
                 LaunchedEffect(Unit) {
                     sheetState.hide()
                 }
                 ModalBottomSheetDatePicker(
-                    onDismiss = { showSheet = false },
+                    onDismiss = {
+                        showSheet = false
+                        scope.launch { sheetState.show() }
+                    },
                     onDatePicked = { date ->
                         dateText = date
                     })
-            } else {
-                LaunchedEffect(Unit) {
-                    sheetState.show()
-                }
             }
         }
     }
 
+}
+
+@Composable
+fun taskCreatorTextFieldColors(): TextFieldColors {
+    val textFieldColor = OutlinedTextFieldDefaults.colors(
+        focusedBorderColor = Color.Transparent,
+        unfocusedBorderColor = Color.Transparent,
+        focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
+        focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary,
+        cursorColor = MaterialTheme.colorScheme.onPrimary,
+    )
+    return textFieldColor
 }
 
 
