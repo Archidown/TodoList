@@ -10,12 +10,12 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
 @Suppress("CheckReturnValue")
-val attach_file: ImageVector
+val AttachmentIcon: ImageVector
     get() {
-        if (_attach_file != null) {
-            return _attach_file!!
+        if (_AttachmentIcon != null) {
+            return _AttachmentIcon!!
         }
-        _attach_file =
+        _AttachmentIcon =
             ImageVector.Builder(
                 name = "attach_file",
                 defaultWidth = 24.dp,
@@ -74,7 +74,7 @@ val attach_file: ImageVector
                     }
                 }
                 .build()
-        return _attach_file!!
+        return _AttachmentIcon!!
     }
 
-private var _attach_file: ImageVector? = null
+private var _AttachmentIcon: ImageVector? = null

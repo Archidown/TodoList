@@ -11,12 +11,12 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
 @Suppress("CheckReturnValue")
-val date_range: ImageVector
+val DateIcon: ImageVector
     get() {
-        if (_date_range != null) {
-            return _date_range!!
+        if (_DateIcon != null) {
+            return _DateIcon!!
         }
-        _date_range =
+        _DateIcon =
             ImageVector.Builder(
                 name = "date_range",
                 defaultWidth = 24.dp,
@@ -107,7 +107,7 @@ val date_range: ImageVector
                     }
                 }
                 .build()
-        return _date_range!!
+        return _DateIcon!!
     }
 
-private var _date_range: ImageVector? = null
+private var _DateIcon: ImageVector? = null
