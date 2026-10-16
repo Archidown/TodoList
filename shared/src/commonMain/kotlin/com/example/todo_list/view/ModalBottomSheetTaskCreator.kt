@@ -32,9 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.todo_list.view.icons.LucideArrowUp
-import com.example.todo_list.view.icons.attach_file
-import com.example.todo_list.view.icons.date_range
+import com.example.todo_list.view.icons.AttachmentIcon
+import com.example.todo_list.view.icons.DateIcon
+import com.example.todo_list.view.icons.SendIcon
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.themes.OnAccent
 import com.example.todo_list.view.utils.dismissWithAnimation
@@ -111,7 +111,7 @@ fun ModalBottomSheetTaskCreator(
                         contentColor = OnAccent
                     )
                 ) {
-                    Icon(imageVector = date_range, contentDescription = "dateIcon")
+                    Icon(imageVector = DateIcon, contentDescription = "dateIcon")
                     Spacer(modifier = Modifier.padding(horizontal = 3.dp))
                     Text(dateText)
                 }
@@ -123,7 +123,7 @@ fun ModalBottomSheetTaskCreator(
                     ),
                 ) {
                     Icon(
-                        imageVector = attach_file,
+                        imageVector = AttachmentIcon,
                         contentDescription = "attachment Icon"
                     )
                 }
@@ -147,7 +147,7 @@ fun ModalBottomSheetTaskCreator(
                         .isNotEmpty() && dateText != "Date",
                 ) {
                     Icon(
-                        imageVector = LucideArrowUp,
+                        imageVector = SendIcon,
                         contentDescription = "create Task Icon"
                     )
                 }

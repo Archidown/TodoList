@@ -11,12 +11,12 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
 @Suppress("CheckReturnValue")
-val text_ad: ImageVector
+val DescriptionIcon: ImageVector
     get() {
-        if (_text_ad != null) {
-            return _text_ad!!
+        if (_DescriptionIcon != null) {
+            return _DescriptionIcon!!
         }
-        _text_ad =
+        _DescriptionIcon =
             ImageVector.Builder(
                 name = "text_ad",
                 defaultWidth = 24.dp,
@@ -81,7 +81,7 @@ val text_ad: ImageVector
                     }
                 }
                 .build()
-        return _text_ad!!
+        return _DescriptionIcon!!
     }
 
-private var _text_ad: ImageVector? = null
+private var _DescriptionIcon: ImageVector? = null

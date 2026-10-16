@@ -7,11 +7,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val LucideArrowUp: ImageVector
+val SendIcon: ImageVector
     get() {
-        if (_LucideArrowUp != null) return _LucideArrowUp!!
+        if (_SendIcon != null) return _SendIcon!!
 
-        _LucideArrowUp = ImageVector.Builder(
+        _SendIcon = ImageVector.Builder(
             name = "arrow-up",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -41,7 +41,7 @@ val LucideArrowUp: ImageVector
             }
         }.build()
 
-        return _LucideArrowUp!!
+        return _SendIcon!!
     }
 
-private var _LucideArrowUp: ImageVector? = null
+private var _SendIcon: ImageVector? = null

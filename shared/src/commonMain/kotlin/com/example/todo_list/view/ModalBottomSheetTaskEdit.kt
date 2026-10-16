@@ -41,8 +41,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todo_list.model.TaskModel
-import com.example.todo_list.view.icons.date_range
-import com.example.todo_list.view.icons.text_ad
+import com.example.todo_list.view.icons.DateIcon
+import com.example.todo_list.view.icons.DescriptionIcon
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.utils.dismissWithAnimation
 import com.example.todo_list.view.utils.rememberHideKeyboard
@@ -154,7 +154,7 @@ fun ModalBottomSheetTaskEdit(
 
             EditRow(
                 leading = {
-                    Icon(imageVector = text_ad, contentDescription = "description Icon")
+                    Icon(imageVector = DescriptionIcon, contentDescription = "description Icon")
                 },
                 content = {
                     OutlinedTextField(
@@ -176,7 +176,7 @@ fun ModalBottomSheetTaskEdit(
                     showDatePicker = true
                 },
                 leading = {
-                    Icon(imageVector = date_range, contentDescription = "date Icon")
+                    Icon(imageVector = DateIcon, contentDescription = "date Icon")
                 },
                 content = {
                     Text(

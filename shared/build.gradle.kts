@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room3)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 room3 {
@@ -59,6 +60,9 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.androidx.room3.runtime)
             implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.material.icons.extended)
+            implementation(libs.navigation.compose)
+            implementation(libs.kotlinx.serialization.json)
             implementation(libs.material.icons.extended)
 
 

@@ -1,10 +1,6 @@
 package com.example.todo_list.view
 
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -12,19 +8,20 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.todo_list.model.TaskDao
+import com.example.todo_list.view.navigation.AllTasks
+import com.example.todo_list.view.navigation.IncomingTasks
+import com.example.todo_list.view.navigation.Settings
+import com.example.todo_list.view.navigation.TodayTasks
 import com.example.todo_list.view.themes.Accent
 import com.example.todo_list.view.themes.AppTheme
 import com.example.todo_list.view.themes.OnAccent
@@ -33,11 +30,11 @@ import com.example.todo_list.viewModel.TaskViewModel
 
 @Composable
 fun App(taskDao: TaskDao) {
-    val taskViewModel = viewModel { TaskViewModel(taskDao) }
-    val taskList = taskViewModel.taskList.collectAsStateWithLifecycle()
+
     var showDialog by remember { mutableStateOf(false) }
-    var currentTaskId by remember { mutableStateOf<Long?>(null) }
-    val currentTask = taskList.value.find { it.id == currentTaskId }
+    val navController = rememberNavController()
+    val taskViewModel = viewModel { TaskViewModel(taskDao) }
+
     AppTheme {
         Scaffold(
             floatingActionButton = {
@@ -45,60 +42,29 @@ fun App(taskDao: TaskDao) {
                     showDialog = true
                 })
             },
+            bottomBar = {
+                ToDoListNavigationBar(navController)
+            },
             containerColor = MaterialTheme.colorScheme.background
         ) { innerPadding ->
-            Column(
-                modifier = Modifier.padding(innerPadding)
+            NavHost(
+                navController = navController,
+                startDestination = AllTasks
             ) {
-                Text(
-                    modifier = Modifier
-                        .padding(vertical = 75.dp, horizontal = 20.dp),
-                    text = "My tasks",
-                    fontSize = 36.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-                LazyColumn {
-                    items(items = taskList.value, key = { it.id }) { task ->
-                        TaskItem(
-                            task,
-                            onClick = {
-                                currentTaskId = task.id
-                            },
-                            onFinished = { task ->
-                                taskViewModel.checkBoxRemoveTask(task)
-                            }
-                        )
+                composable<AllTasks> { AllTasksScreen(innerPadding, taskViewModel, showDialog) }
+                composable<TodayTasks> { TodayTasksScreen() }
+                composable<IncomingTasks> { IncomingTasksScreen() }
+                composable<Settings> { SettingsScreen() }
+            }
+            if (showDialog) {
+                ModalBottomSheetTaskCreator(
+                    onDismiss = { showDialog = false },
+                    onAddTask = { title, description, date ->
+                        if (taskViewModel.checkTask(title, date)) {
+                            taskViewModel.addTask(title, description, date)
+                        }
                     }
-                }
-                if (showDialog) {
-                    ModalBottomSheetTaskCreator(
-                        onDismiss = { showDialog = false },
-                        onAddTask = { title, description, date ->
-                            if (taskViewModel.checkTask(title, date)) {
-                                taskViewModel.addTask(title, description, date)
-                            }
-                        }
-                    )
-                }
-                currentTask?.let { task ->
-                    ModalBottomSheetTaskEdit(
-                        task = task,
-                        onDismiss = { currentTaskId = null },
-                        onSave = { title, description, date ->
-                            taskViewModel.taskEdit(
-                                task = task,
-                                newTitle = title,
-                                newDescription = description,
-                                newDate = date
-                            )
-                        },
-                        onFinished = { task ->
-                            taskViewModel.checkBoxRemoveTask(task)
-                            currentTaskId = null
-                        }
-                    )
-                }
+                )
             }
         }
     }
