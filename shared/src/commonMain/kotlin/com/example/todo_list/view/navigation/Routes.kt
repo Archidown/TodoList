@@ -3,14 +3,17 @@ package com.example.todo_list.view.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-object AllTasks
+sealed interface Route
 
 @Serializable
-object TodayTasks
+object AllTasks : Route
 
 @Serializable
-object IncomingTasks
+object TodayTasks : Route
 
 @Serializable
-object Parameters
+object IncomingTasks : Route
+
+@Serializable
+object Settings : Route
 
