@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.todo_list.model.navBarItems
 
@@ -26,7 +27,14 @@ fun ToDoListNavigationBar(navController: NavController) {
                 selected = currentDestination?.hasRoute(model.route::class) == true,
                 onClick = {
                     selected = index
-                    navController.navigate(model.route)
+                    navController.navigate(model.route) {
+                        //to prevent bottom bar to accumulate destination and to go to the starDestination
+                        launchSingleTop = true
+                        restoreState = true
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                    }
                 },
                 icon = { Icon(imageVector = model.icon, contentDescription = model.label) },
                 label = { Text(model.label) },
