@@ -9,16 +9,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.todo_list.model.navBarItems
 
 @Composable
-fun ToDoListNavigationBar() {
+fun ToDoListNavigationBar(navController: NavController) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
     var selected by remember { mutableStateOf(0) }
     NavigationBar {
         navBarItems.forEachIndexed { index, model ->
             NavigationBarItem(
-                selected = selected == index,
-                onClick = { selected = index },
+                //To get the right icon selected on the NavBar
+                selected = currentDestination?.hasRoute(model.route::class) == true,
+                onClick = {
+                    selected = index
+                    navController.navigate(model.route)
+                },
                 icon = { Icon(imageVector = model.icon, contentDescription = model.label) },
                 label = { Text(model.label) },
             )
